@@ -9,6 +9,7 @@ import service.ReservationService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class HotelResource {
     private CustomerService customerService = new CustomerService();
@@ -22,9 +23,9 @@ public class HotelResource {
     public Room getRoom(String roomNumber){
         return reservationService.getARoom(roomNumber);
     }
-    public Reservation bookARoom(String customerEmail, Room room, Date checkInDate, Date checkOutDate){
+    public void bookARoom(String customerEmail, Room room, Date checkInDate, Date checkOutDate){
 
-        return reservationService.reserveARoom(customerService.getCustomer(customerEmail),room,checkInDate,checkOutDate);
+         reservationService.reserveARoom(customerService.getCustomer(customerEmail),room,checkInDate,checkOutDate);
     }
 
     public List<Reservation> getCustomersReservations(String customerEmail){
@@ -34,7 +35,11 @@ public class HotelResource {
         return customerService.validateEmail(email);
     }
 
-    public List<Room> findARoom(Date checkIn, Date checkOut){
+    public boolean validateDate(String inputDate) throws Exception{
+        return reservationService.validateDate(inputDate);
+    }
+
+    public Map<String,Room> findARoom(Date checkIn, Date checkOut){
         return reservationService.findRooms(checkIn,checkOut);
     }
 }

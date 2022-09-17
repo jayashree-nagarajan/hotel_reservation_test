@@ -46,6 +46,26 @@ public class Customer {
 
     @Override
     public String toString(){
-        return "Name : "+firstName+" "+lastName+"\nEmail :"+email;
+        return "\tNAME : "+firstName+" "+lastName+"\tEMAIL :"+email+"\n";
     }
+
+    @Override
+    public int hashCode() {
+        int hash = (this.email == null ? 0 : this.email.hashCode()) +
+                (this.firstName == null ? 0 : this.firstName.hashCode());
+        //System.out.println("Overriding hashCode :"+hash);
+        return hash;
+    }
+    @Override
+    public boolean equals(Object object) {
+        Customer customer = (Customer) object;
+
+        if(customer.getFirstName().equals(firstName) && customer.getLastName().equals(lastName) && customer.getEmail().equals(email))
+            return true;
+        else
+            return false;
+  }
+
 }
+
+

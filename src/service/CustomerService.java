@@ -12,47 +12,31 @@ public class CustomerService {
 
     private static Map<String,Customer> customerCollection = new HashMap<String,Customer>();
 
-
-    //implementation of singleton object starts
-    /*
-    private static CustomerService customerServiceObj;
-
-    private CustomerService(){
-
-    }
-    public static CustomerService getInstance(){
-        if (customerServiceObj == null){
-            customerServiceObj = new CustomerService();
-        }
-        return customerServiceObj;
-    }
-
-     */
-    //implementation of singleton object ends
     public void addCustomer(String email,String firstName,String lastName){
-        System.out.println("Inside CustomerService addCustomer()");
+        //System.out.println("Inside CustomerService addCustomer()");
         Customer customer = new Customer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
         customer.setEmail(email);
         customerCollection.put(email,customer);
-        CustomerService.addToMap(customerCollection,customer);
+        //CustomerService.addToMap(customerCollection,customer);
 
     }
 
-    private static void addToMap(Map<String, Customer> customerCollection, Customer customer) {
+   /* private static void addToMap(Map<String, Customer> customerCollection, Customer customer) {
         //System.out.println("Inside CustomerService addToMap()");
         customerCollection.put(customer.getEmail(),customer);
-    }
+    }*/
 
     public Customer getCustomer(String customerEmail){
         Customer customer = new Customer() ;
         customer = customerCollection.get(customerEmail);
-        System.out.println("getCustomer :"+customer);
-        return customer;
+        //System.out.println("getCustomer :"+customer);
+        //if(customer!=null)
+          return customer;
     }
     public Map<String,Customer> getAllCustomers(){
-        //System.out.println("CustomerService getAllCustomers()");
+        //System.out.println("CustomerService getAllCustomers()"+customerCollection.hashCode());
         return customerCollection;
     }
 
@@ -62,4 +46,6 @@ public class CustomerService {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
+
 }

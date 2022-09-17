@@ -20,6 +20,10 @@ public class AdminResource {
         System.out.println("Inside AdminResource");
         reservationService.addRoom(roomNumber,type,price);
     }
+    public void addFreeRoom(String roomNumber, RoomType type){
+        System.out.println("Inside AdminResource addFreeRoom");
+        reservationService.addFreeRoom(roomNumber,type);
+    }
     public void getAllRooms(){
          reservationService.printAllRooms();
     }

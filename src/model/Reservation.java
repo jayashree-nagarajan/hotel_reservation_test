@@ -18,7 +18,7 @@ public class Reservation {
 
     @Override
     public String toString(){
-        return "Customer :"+customer+" room:"+room+" checkInDate:"+checkInDate+" checkOutDate:"+checkOutDate;
+        return "CUSTOMER :"+customer+"\n ROOM :\n"+room+"\n CHECKINDATE: \n"+checkInDate+"\n CHECKOUTDATE: \n"+checkOutDate;
     }
 
     public void setCustomer(Customer customer) {
@@ -49,7 +49,7 @@ public class Reservation {
         return checkOutDate;
     }
 
-    public IRoom getRoom() {
+    public Room getRoom() {
         return room;
     }
 }

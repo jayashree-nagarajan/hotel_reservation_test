@@ -13,6 +13,9 @@ public class Room implements IRoom{
         this.price = price;
         this.enumeration = enumeration;
     }
+    public Room(){
+        super();
+    }
 
     @Override
     public String getRoomNumber(){
@@ -38,10 +41,20 @@ public class Room implements IRoom{
         this.isFree = isEmpty;
     }
 
+    public void setRoomnumber(String roomnumber) {
+        this.roomnumber = roomnumber;
+    }
 
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setEnumeration(RoomType enumeration) {
+        this.enumeration = enumeration;
+    }
 
     @Override
     public String toString() {
-        return "Room Number: "+this.roomnumber+" Room Type:"+this.enumeration+" Price:"+this.price+" IsFree:"+isFree+"\n";
+        return "ROOM NUMBER: "+this.roomnumber+" ROOM TYPE:"+this.enumeration+" PRICE:"+this.price+"\n";
     }
 }

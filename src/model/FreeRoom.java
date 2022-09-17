@@ -1,14 +1,17 @@
 package model;
 
 public class FreeRoom extends Room{
-
-    public FreeRoom(String roomnumber, Double price, RoomType enumeration) {
-        super(roomnumber, (double)0 , enumeration);
+    private final double price = 0;
+    public FreeRoom(String roomnumber, RoomType enumeration) {
+        super();
+        this.setRoomnumber(roomnumber);
+        this.setEnumeration(enumeration);
+        this.setPrice(price);
         this.setFree(true);
     }
 
     @Override
     public String toString(){
-        return super.toString()+"Free Room class";
+        return super.toString();
     }
 }

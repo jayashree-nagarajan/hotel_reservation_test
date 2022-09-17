@@ -38,14 +38,43 @@ public class AdminMenu {
                     break;
                 case 4:
                     Scanner addRoom = new Scanner(System.in);
+                    String roomNumber;
+                    RoomType type = null;
+                    int roomType;
+                    System.out.println("Do you want to add free rooms? y/n :");
+                    String option = addRoom.nextLine();
+                    //if(option.equals("y")){
+                        System.out.println("Enter the room number:");
+                        roomNumber = addRoom.nextLine();
+                        boolean chkRoomType = false;
+                        do{
+                            System.out.println("Room type : \n Enter 1 for SINGLE room OR Enter 2 for DOUBLE room :");
+                            roomType = addRoom.nextInt();
+                            if(roomType == 1)
+                                type = RoomType.SINGLE;
 
-                    System.out.println("Enter the room number:");
-                    String roomNumber = addRoom.nextLine();
-                    System.out.println("Room type : DOUBLE/SINGLE :");
-                    RoomType type = RoomType.valueOf(addRoom.next());
-                    System.out.println("Enter the price:");
-                    Double price = addRoom.nextDouble();
-                    adminResource.addRoom(roomNumber,type,price);
+                            else if(roomType == 2)
+                                type=RoomType.DOUBLE;
+                            else {
+                                System.out.println("Please enter valid room type!");
+                                chkRoomType = true;
+                            }
+                        }while (chkRoomType);
+                    if(option.equals("y")){
+                        adminResource.addFreeRoom(roomNumber,type);
+                    }
+                    else{
+                        /*System.out.println("Enter the room number:");
+                        roomNumber = addRoom.nextLine();
+                        System.out.println("Room type : DOUBLE/SINGLE :");
+                        type = RoomType.valueOf(addRoom.next());*/
+                        System.out.println("Enter the price:");
+                        Double price = addRoom.nextDouble();
+                        adminResource.addRoom(roomNumber,type,price);
+                    }
+
+
+
                     break;
                 case 5:
                     break;

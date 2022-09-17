@@ -1,12 +1,12 @@
 package api;
 
 import model.IRoom;
+import model.Reservation;
 import model.Room;
+import service.ReservationService;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MainMenu {
     public static void main(String[] args){
@@ -26,26 +26,93 @@ public class MainMenu {
                 int userInput = scanner.nextInt();
                 switch (userInput) {
                     case 1:
+
                         Scanner reserveScanner = new Scanner(System.in);
                         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                        Date today =new Date();
                         System.out.println("Find and reserve a room");
-                        System.out.println("Enter the check in date (MM/dd/yyyy):");
+
                         Date checkInDate = null;
-                        String dateInput = reserveScanner.nextLine();
-                        if (dateInput != null && dateInput.trim().length() > 0) {
-                            checkInDate = format.parse(dateInput);
+                        boolean validateCheckInDate = true;
+                        String dateInput;
+                        while(validateCheckInDate){
+                            System.out.println("Enter the check in date (MM/dd/yyyy):");
+                            dateInput = reserveScanner.nextLine();
+                            if(hotelResource.validateDate(dateInput)){
+                                if (dateInput != null && dateInput.trim().length() > 0) {
+                                    checkInDate = format.parse(dateInput);
+                                    if(checkInDate.before(today)){
+                                        System.out.println("Please enter a valid date after "+today);
+                                        validateCheckInDate = true;
+                                    }
+                                    else {
+                                        validateCheckInDate = false;
+                                    }
+
+                                }
+                            }
+                            else{
+                                validateCheckInDate = true;
+
+                            }
+
                         }
-                        System.out.println("Enter the check out date (MM/dd/yyyy):");
+                        boolean validateCheckOutDate = true;
                         Date checkOutDate = null;
-                        String chkOutDate = reserveScanner.nextLine();
-                        if (chkOutDate != null && chkOutDate.trim().length() > 0) {
-                            checkOutDate = format.parse(chkOutDate);
+                        while(validateCheckOutDate){
+                            System.out.println("Enter the check out date (MM/dd/yyyy):");
+                            String chkOutDate = reserveScanner.nextLine();
+                            if(hotelResource.validateDate(chkOutDate)){
+                                if (chkOutDate != null && chkOutDate.trim().length() > 0) {
+                                    checkOutDate = format.parse(chkOutDate);
+                                    if(checkOutDate.before(checkInDate)){
+                                        System.out.println("Please enter the valid checkout date after "+checkInDate);
+                                        validateCheckOutDate= true;
+                                    }
+                                    else{
+                                        validateCheckOutDate = false;
+                                    }
+                                }
+                            }
+                            else{
+                                validateCheckOutDate = true;
+                            }
+
                         }
-                        List<Room> roomList = hotelResource.findARoom(checkInDate, checkOutDate);
-                        System.out.println(roomList);
+
+
+                        Map<String,Room> roomList = hotelResource.findARoom(checkInDate, checkOutDate);
+                        Calendar calendar = Calendar.getInstance();
+
+                        if(roomList.isEmpty()){
+                            Date newInDate;
+                            calendar.setTime(checkInDate);
+                            calendar.add(Calendar.DATE,7);
+                            newInDate = calendar.getTime();
+                            System.out.println("No rooms available on the selected dates. ");
+                            System.out.println("Do you want to check rooms for "+newInDate);
+                            System.out.println("Enter y for yes \n n for no:");
+                            String option = reserveScanner.nextLine();
+                            if(option.equals("y")){
+                                checkInDate = newInDate;
+                                calendar.setTime(checkOutDate);
+                                calendar.add(Calendar.DATE,7);
+                                checkOutDate = calendar.getTime();
+                                //System.out.println("New Dates : "+checkInDate+checkOutDate);
+                            }
+                            else{
+                                break;
+                            }
+                        }
+                        roomList = hotelResource.findARoom(checkInDate, checkOutDate);
+                        System.out.println("Rooms available for booking :\n"+roomList);
+                        if(roomList.isEmpty()){
+                            System.out.println("No rooms available");
+                            break;
+                        }
                         System.out.println("Enter the customer email :");
                         String customerEmail = reserveScanner.nextLine();
-                        while(hotelResource.validateEmail(customerEmail) == false){
+                        while(!hotelResource.validateEmail(customerEmail)){
                             System.out.println("Please enter the valid email (xyz@domain.com):");
                             customerEmail = reserveScanner.nextLine();
                         }
@@ -69,7 +136,7 @@ public class MainMenu {
                         String custLastName = customerInput.nextLine();
                         System.out.println("Enter Customer Email :");
                         String custEmail = customerInput.nextLine();
-                        while(hotelResource.validateEmail(custEmail) == false){
+                        while(!hotelResource.validateEmail(custEmail)){
                             System.out.println("Please enter the valid email (xyz@domain.com):");
                             custEmail = customerInput.nextLine();
                         }
